@@ -1,9 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { User, Briefcase, MessageSquare, Mail } from 'lucide-react'
+import { User, Briefcase, MessageSquare, Mail, LucideIcon } from 'lucide-react'
+import { ReactNode } from 'react'
 
-const MenuItem = ({ href, icon: Icon, children }) => (
+interface MenuItemProps {
+  href: string
+  icon: LucideIcon
+  children: ReactNode
+}
+
+const MenuItem = ({ href, icon: Icon, children }: MenuItemProps) => (
   <li>
     <Link 
       href={href} 

@@ -35,11 +35,28 @@ const buttonVariants = cva(
   }
 )
 
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(
+            buttonVariants({ variant, size, className }),
+            "relative overflow-hidden"
+          )}
+          ref={ref}
+          {...props}
+        />
+      )
+    }
+
     return (
-      <Comp
+      <button
         className={cn(
           buttonVariants({ variant, size, className }),
           "relative overflow-hidden"
@@ -51,7 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <motion.div
           className="absolute inset-0 bg-white/30"
           initial={{ x: "-100%" }}
-          animate={{ 
+          animate={{
             x: ["100%", "-100%"],
           }}
           transition={{
@@ -64,15 +81,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             transformOrigin: 'left'
           }}
         />
-      </Comp>
+      </button>
     )
   }
 )
 Button.displayName = "Button"
 
 export { Button, buttonVariants }
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }
-
